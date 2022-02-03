@@ -40,5 +40,15 @@ class TestGetUntouchedLetterFrequencies(unittest.TestCase):
             [("d", 0.25), ("e", 0.25), ("k", 0.25), ("p", 0.25)]
         )
 
+    def test_untouched_letters_sorted(self):
+        g = possible_words.PossibleWordGenerator(wordStructure="s*ar*", excludeLetters="unlitoe")
+        letterFrequencies = g.getUntouchedLetterFrequencies()
+        self.assertEqual(letterFrequencies[0][0], "c")
+        self.assertAlmostEqual(letterFrequencies[0][1], 0.363636363636)
+        self.assertEqual(letterFrequencies[1][0], "p")
+        self.assertAlmostEqual(letterFrequencies[1][1], 0.363636363636)
+        self.assertEqual(letterFrequencies[2][0], "h")
+        self.assertAlmostEqual(letterFrequencies[2][1], 0.272727272727)
+
 if __name__ == "__main__":
     unittest.main()
