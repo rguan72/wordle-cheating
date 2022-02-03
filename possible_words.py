@@ -7,7 +7,6 @@ class PossibleWordGenerator:
     def __init__(self, **kwargs):
         self.wordStructure = kwargs.get("wordStructure")
         self.excludeLetters = kwargs.get("excludeLetters")
-        self.requireLetters = kwargs.get("requireLetters")
         self.forbiddenPositions = kwargs.get("forbiddenPositions")
         self.setLetterBank(self.excludeLetters)
         self.possibleWords = []
@@ -64,14 +63,14 @@ class PossibleWordGenerator:
                     self.currentWord.append("*")
 
     def pruneBasedOnRequiredLetters(self):
-        if not self.requireLetters:
+        if not self.forbiddenPositions:
             return False
         numBlankLetters = 0
         for letter in self.currentWord:
             if letter not in alphabet:
                 numBlankLetters += 1
         numUnusedRequiredLetters = 0
-        for letter in self.requireLetters:
+        for letter in self.forbiddenPositions.keys():
             if letter not in self.currentWord:
                 numUnusedRequiredLetters += 1
         return numUnusedRequiredLetters > numBlankLetters
@@ -111,8 +110,8 @@ class PossibleWordGenerator:
     def isUntouched(self, letter: str) -> bool:
         wordStructure = self.wordStructure if self.wordStructure else ""
         excludeLetters = self.excludeLetters if self.excludeLetters else ""
-        requireLetters = self.requireLetters if self.requireLetters else ""
-        return letter not in wordStructure and letter not in excludeLetters and letter not in requireLetters
+        forbiddenPositions = self.forbiddenPositions if self.forbiddenPositions else {}
+        return letter not in wordStructure and letter not in excludeLetters and letter not in forbiddenPositions
 
     
 

@@ -20,13 +20,13 @@ class TestGetPossibleWords(unittest.TestCase):
 
     def test_use_five_letters(self):
         self.assertEqual(
-            possible_words.PossibleWordGenerator(requireLetters="iltun").getPossibleWords(),
+            possible_words.PossibleWordGenerator(forbiddenPositions={"i": [0], "l": [1], "n": [2], "t": [3], "u": [4]}).getPossibleWords(),
             ["unlit", "until"]
         )
 
     def test_forbidden_positions(self):
         self.assertEqual(
-            possible_words.PossibleWordGenerator(requireLetters="sot", wordStructure="****e", excludeLetters="unliar", forbiddenPositions={"s": [0], "o": [1], "t": [4]}).getPossibleWords(),
+            possible_words.PossibleWordGenerator(wordStructure="****e", excludeLetters="unliar", forbiddenPositions={"s": [0], "o": [1], "t": [4]}).getPossibleWords(),
             ["those"]
         )
 
@@ -40,7 +40,7 @@ class TestGetUntouchedLetterFrequencies(unittest.TestCase):
         )
 
     def test_untouched_letters_frequency_wordStructure_exclude_require(self):
-        g = possible_words.PossibleWordGenerator(wordStructure="s*ar*", excludeLetters="unlito", requireLetters="h")
+        g = possible_words.PossibleWordGenerator(wordStructure="s*ar*", excludeLetters="unlito", forbiddenPositions={"h": [0]})
         self.assertEqual(
             g.getUntouchedLetterFrequencies(),
             [("d", 0.25), ("e", 0.25), ("k", 0.25), ("p", 0.25)]
