@@ -24,6 +24,12 @@ class TestGetPossibleWords(unittest.TestCase):
             ["unlit", "until"]
         )
 
+    def test_forbidden_positions(self):
+        self.assertEqual(
+            possible_words.PossibleWordGenerator(requireLetters="sot", wordStructure="****e", excludeLetters="unliar", forbiddenPositions={"s": [0], "o": [1], "t": [4]}).getPossibleWords(),
+            ["those"]
+        )
+
 class TestGetUntouchedLetterFrequencies(unittest.TestCase):
 
     def test_untouched_letters_frequency(self):

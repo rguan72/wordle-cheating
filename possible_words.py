@@ -8,6 +8,7 @@ class PossibleWordGenerator:
         self.wordStructure = kwargs.get("wordStructure")
         self.excludeLetters = kwargs.get("excludeLetters")
         self.requireLetters = kwargs.get("requireLetters")
+        self.forbiddenPositions = kwargs.get("forbiddenPositions")
         self.setLetterBank(self.excludeLetters)
         self.possibleWords = []
         self.initializeCurrentWord(self.wordStructure)
@@ -15,6 +16,8 @@ class PossibleWordGenerator:
         
     def getPossibleWords(self) -> typing.List[str]:
         if self.pruneBasedOnRequiredLetters():
+            return self.possibleWords
+        if self.pruneBasedOnForbiddenPositions():
             return self.possibleWords
 
         nextLetterBlankIndex = self.findNextBlankLetterIndex()
@@ -72,6 +75,15 @@ class PossibleWordGenerator:
             if letter not in self.currentWord:
                 numUnusedRequiredLetters += 1
         return numUnusedRequiredLetters > numBlankLetters
+
+    def pruneBasedOnForbiddenPositions(self):
+        if not self.forbiddenPositions:
+            return False
+        for index, letter in enumerate(self.currentWord):
+            if letter in alphabet:
+                if letter in self.forbiddenPositions and index in self.forbiddenPositions[letter]:
+                    return True
+        return False
 
     def getUntouchedLetters(self):
         untouchedLetters = []
