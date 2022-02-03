@@ -31,6 +31,15 @@ class PossibleWordGenerator:
 
         return self.possibleWords
 
+    def getUntouchedLetterFrequencies(self):
+        frequencies = {}
+        possibleWords = self.getPossibleWords()
+        for untouchedLetter in self.getUntouchedLetters():
+            letterUsageCount = self.getUsageCount(untouchedLetter, possibleWords)
+            if letterUsageCount > 0:
+                frequencies[untouchedLetter] = letterUsageCount * 1.0 / len(possibleWords)
+        return frequencies
+
     def setLetterBank(self, excludeLetters: str):
         self.letterBank = []
         if not excludeLetters:
@@ -64,6 +73,20 @@ class PossibleWordGenerator:
                 numUnusedRequiredLetters += 1
         return numUnusedRequiredLetters > numBlankLetters
 
+    def getUntouchedLetters(self):
+        untouchedLetters = []
+        for letter in alphabet:
+            if self.isUntouched(letter):
+                untouchedLetters.append(letter)
+        return untouchedLetters
+
+    def getUsageCount(self, untouchedLetter, possibleWords):
+        usageCount = 0
+        for word in possibleWords:
+            if untouchedLetter in word:
+                usageCount += 1
+        return usageCount
+
     def findNextBlankLetterIndex(self):
         for index, c in enumerate(self.currentWord):
             if not c in alphabet:
@@ -72,6 +95,12 @@ class PossibleWordGenerator:
 
     def notAlphabetLetter(self, letter):
         return not letter in alphabet
+
+    def isUntouched(self, letter: str) -> bool:
+        wordStructure = self.wordStructure if self.wordStructure else ""
+        excludeLetters = self.excludeLetters if self.excludeLetters else ""
+        requireLetters = self.requireLetters if self.requireLetters else ""
+        return letter not in wordStructure and letter not in excludeLetters and letter not in requireLetters
 
     
 
