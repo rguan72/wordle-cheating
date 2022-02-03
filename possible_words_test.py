@@ -30,14 +30,14 @@ class TestGetUntouchedLetterFrequencies(unittest.TestCase):
         g = possible_words.PossibleWordGenerator(wordStructure="*ream", excludeLetters="b")
         self.assertEqual(
             g.getUntouchedLetterFrequencies(),
-            {"c": 0.5, "d": 0.5}
+            [("c", 0.5), ("d", 0.5)]
         )
 
     def test_untouched_letters_frequency_wordStructure_exclude_require(self):
         g = possible_words.PossibleWordGenerator(wordStructure="s*ar*", excludeLetters="unlito", requireLetters="h")
         self.assertEqual(
             g.getUntouchedLetterFrequencies(),
-            {"d": 0.25, "k": 0.25, "p": 0.25, "e": 0.25}
+            [("d", 0.25), ("e", 0.25), ("k", 0.25), ("p", 0.25)]
         )
 
 if __name__ == "__main__":

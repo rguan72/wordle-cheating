@@ -38,7 +38,7 @@ class PossibleWordGenerator:
             letterUsageCount = self.getUsageCount(untouchedLetter, possibleWords)
             if letterUsageCount > 0:
                 frequencies[untouchedLetter] = letterUsageCount * 1.0 / len(possibleWords)
-        return frequencies
+        return sorted(frequencies.items(), key=lambda x: (x[1], x[0]))
 
     def setLetterBank(self, excludeLetters: str):
         self.letterBank = []
